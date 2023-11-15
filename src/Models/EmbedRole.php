@@ -1,9 +1,9 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions\Models;
+namespace Mehrdadakbari\Mongodb\Permissions\Models;
 
-use Moloquent\Eloquent\Model;
-use Fahmiardi\Mongodb\Permissions\Contracts\EmbedRole as EmbedRoleContract;
+use MongoDB\Laravel\Eloquent\Model;
+use Mehrdadakbari\Mongodb\Permissions\Contracts\EmbedRole as EmbedRoleContract;
 
 class EmbedRole extends Model implements EmbedRoleContract
 {

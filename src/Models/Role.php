@@ -1,8 +1,9 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions\Models;
+namespace Mehrdadakbari\Mongodb\Permissions\Models;
 
-use Moloquent\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use MongoDB\Laravel\Eloquent\Model;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
@@ -16,7 +17,7 @@ class Role extends Model implements RoleContract
      *
      * @return \Moloquent\Eloquent\Relations\EmbedsMany
      */
-    public function permissions()
+    public function permissions(): BelongsToMany
     {
         return $this->embedsMany(
             config('laravel-permission.table_names.role_has_permissions')
@@ -44,7 +45,7 @@ class Role extends Model implements RoleContract
      *
      * @return Role
      */
-    public static function findByName($name)
+    public static function findByName(string $name, ?string $guardName): RoleContract
     {
         $role = static::where('name', $name)->first();
 
@@ -62,7 +63,7 @@ class Role extends Model implements RoleContract
      *
      * @return bool
      */
-    public function hasPermissionTo($permission)
+    public function hasPermissionTo($permission, $guardName = null): bool
     {
         if (is_string($permission)) {
             $permission = app(Permission::class)->findByName($permission);

@@ -1,9 +1,9 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions\Traits;
+namespace Mehrdadakbari\Mongodb\Permissions\Traits;
 
 use Spatie\Permission\Contracts\Permission;
-use Fahmiardi\Mongodb\Permissions\Contracts\EmbedPermission;
+use Mehrdadakbari\Mongodb\Permissions\Contracts\EmbedPermission;
 use Carbon\Carbon;
 
 trait HasPermissions

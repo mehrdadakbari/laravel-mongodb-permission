@@ -1,9 +1,9 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions;
+namespace Mehrdadakbari\Mongodb\Permissions;
 
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Cache\CacheManager;
+use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\PermissionRegistrar as BasePermissionRegistrar;
 
@@ -12,9 +12,9 @@ class PermissionRegistrar extends BasePermissionRegistrar
     /**
      * {@inheritdoc}
      */
-    public function __construct(Gate $gate, Repository $cache)
+    public function __construct(CacheManager $cache)
     {
-        parent::__construct($gate, $cache);
+        parent::__construct($cache);
     }
 
     /**
@@ -22,7 +22,7 @@ class PermissionRegistrar extends BasePermissionRegistrar
      *
      * @return \Moloquent\Eloquent\Collection
      */
-    protected function getPermissions()
+    protected function getPermissionsWithRoles(): Collection
     {
         return app(Permission::class)->get();
     }

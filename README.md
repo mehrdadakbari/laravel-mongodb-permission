@@ -24,7 +24,7 @@ $user->can('edit articles');
 
 You can install the package via composer:
 ``` bash
-$ composer require fahmiardi/laravel-mongodb-permission
+$ composer require Mehrdadakbari/laravel-mongodb-permission
 ```
 
 This service provider must be installed. And Spatie provider too.
@@ -33,7 +33,7 @@ This service provider must be installed. And Spatie provider too.
 'providers' => [
     ...
     Spatie\Permission\PermissionServiceProvider::class,
-    Fahmiardi\Mongodb\Permissions\PermissionServiceProvider::class,
+    Mehrdadakbari\Mongodb\Permissions\PermissionServiceProvider::class,
 ];
 ```
 
@@ -171,9 +171,9 @@ return [
 Adjust the `table_names` config above for support mongodb many to many relationships (using EmbedsMany)
 
 ```php
-    'user_has_permissions' => Fahmiardi\Mongodb\Permissions\Models\EmbedPermission::class,
-    'user_has_roles' => Fahmiardi\Mongodb\Permissions\Models\EmbedRole::class,
-    'role_has_permissions' => Fahmiardi\Mongodb\Permissions\Models\EmbedPermission::class,
+    'user_has_permissions' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedPermission::class,
+    'user_has_roles' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedRole::class,
+    'role_has_permissions' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedPermission::class,
 ```
 
 ## Usage

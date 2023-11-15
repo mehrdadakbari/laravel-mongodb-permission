@@ -1,15 +1,17 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions;
+namespace Mehrdadakbari\Mongodb\Permissions;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-use Fahmiardi\Mongodb\Permissions\Contracts\EmbedPermission as EmbedPermissionContract;
-use Fahmiardi\Mongodb\Permissions\Contracts\EmbedRole as EmbedRoleContract;
-use Fahmiardi\Mongodb\Permissions\Models\Permission;
-use Fahmiardi\Mongodb\Permissions\Models\Role;
-use Fahmiardi\Mongodb\Permissions\Traits\HasPermissions;
-use Fahmiardi\Mongodb\Permissions\Traits\HasRoles;
+use Mehrdadakbari\Mongodb\Permissions\Contracts\EmbedPermission as EmbedPermissionContract;
+use Mehrdadakbari\Mongodb\Permissions\Contracts\EmbedRole as EmbedRoleContract;
+use Mehrdadakbari\Mongodb\Permissions\Models\Permission;
+use Mehrdadakbari\Mongodb\Permissions\Models\Role;
+use Mehrdadakbari\Mongodb\Permissions\Traits\HasPermissions;
+use Mehrdadakbari\Mongodb\Permissions\Traits\HasRoles;
+use Illuminate\Contracts\Auth\Access\Gate;
+
 
 class PermissionServiceProvider extends ServiceProvider
 {
@@ -17,9 +19,9 @@ class PermissionServiceProvider extends ServiceProvider
      * Bootstrap the application services.
      *
      */
-    public function boot(PermissionRegistrar $permissionLoader)
+    public function boot(PermissionRegistrar $permissionLoader, Gate $gate)
     {
-        $permissionLoader->registerPermissions();
+        $permissionLoader->registerPermissions($gate);
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace Fahmiardi\Mongodb\Permissions\Models;
+namespace Mehrdadakbari\Mongodb\Permissions\Models;
 
-use Moloquent\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use MongoDB\Laravel\Eloquent\Model;
 use Spatie\Permission\Contracts\Permission as PermissionContract;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
@@ -13,7 +14,7 @@ class Permission extends Model implements PermissionContract
      *
      * @return \Illuminate\Support\Collection $roles
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->getPermissions(
             config('laravel-permission.models.role')
@@ -39,12 +40,44 @@ class Permission extends Model implements PermissionContract
      *
      * @throws PermissionDoesNotExist
      */
-    public static function findByName($name)
+    public static function findByName(string $name, ?string $guardName): PermissionContract
     {
         $permission = static::where('name', $name)->first();
 
         if (! $permission) {
             throw new PermissionDoesNotExist();
+        }
+
+        return $permission;
+    }
+
+    /**
+     * Find a permission by its id.
+     *
+     * @param int|string $id
+     *
+     * @throws PermissionDoesNotExist
+     */
+    public static function findById(int|string $id, ?string $guardName): PermissionContract
+    {
+        $permission = static::where('id', $id)->first();
+
+        if (! $permission) {
+            throw new PermissionDoesNotExist();
+        }
+
+        return $permission;
+    }
+
+    public static function findOrCreate(string $name, ?string $guardName): PermissionContract
+    {
+        $permission = static::where('name', $name)->first();
+
+        if (! $permission) {
+            $permission = static::create([
+                'name' => $name,
+                'guard_name' => $guardName
+            ]);
         }
 
         return $permission;
