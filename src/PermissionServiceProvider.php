@@ -50,10 +50,10 @@ class PermissionServiceProvider extends ServiceProvider
      */
     protected function registerEmbedModelBindings()
     {
-        $configTables = $this->app->config['laravel-permission.table_names'];
+        $configTables = $this->app->config['permission.table_names'];
 
         $this->app->bind(EmbedPermissionContract::class, $configTables['role_has_permissions']);
-        $this->app->bind(EmbedPermissionContract::class, $configTables['user_has_permissions']);
-        $this->app->bind(EmbedRoleContract::class, $configTables['user_has_roles']);
+        $this->app->bind(EmbedPermissionContract::class, $configTables['model_has_permissions']);
+        $this->app->bind(EmbedRoleContract::class, $configTables['model_has_roles']);
     }
 }
