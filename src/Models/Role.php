@@ -2,8 +2,8 @@
 
 namespace Mehrdadakbari\Mongodb\Permissions\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\BelongsToMany;
 use Spatie\Permission\Contracts\Role as RoleContract;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
@@ -12,15 +12,17 @@ class Role extends Model implements RoleContract
 {
     use HasPermissions;
 
+    protected $fillable = ['name', 'guard_name'];
+
     /**
      * A role may be given various permissions.
      *
-     * @return \Moloquent\Eloquent\Relations\EmbedsMany
+     * @return MongoDB\Laravel\Relations\BelongsToMany
      */
     public function permissions(): BelongsToMany
     {
-        return $this->embedsMany(
-            config('laravel-permission.table_names.role_has_permissions')
+        return $this->belongsToMany(
+            config('permission.table_names.role_has_permissions')
         );
     }
 

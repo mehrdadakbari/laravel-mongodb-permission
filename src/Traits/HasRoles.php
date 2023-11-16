@@ -19,7 +19,7 @@ trait HasRoles
     public function roles()
     {
         return $this->embedsMany(
-            config('laravel-permission.table_names.role_has_permissions')
+            config('permission.table_names.role_has_permissions')
         );
     }
 
@@ -31,7 +31,7 @@ trait HasRoles
     public function permissions()
     {
         return $this->embedsMany(
-            config('laravel-permission.table_names.user_has_permissions')
+            config('permission.table_names.model_has_permissions')
         );
     }
 
@@ -47,7 +47,7 @@ trait HasRoles
         $roles = collect($roles)
             ->flatten()
             ->map(function ($role) {
-                return $this->getStoredRole($role);
+                return $this->getStoredRole($role, 'web');
             })
             ->all();
 
@@ -70,9 +70,9 @@ trait HasRoles
      *
      * @param string|Role $role
      */
-    public function removeRole($role)
+    public function removeRole($role, string $guard = 'web')
     {
-        $role = $this->getStoredRole($role);
+        $role = $this->getStoredRole($role, $guard);
         $embedRole = $this->roles()->where('id', $role->_id);
 
         $this->roles()->detach($embedRole);
@@ -87,10 +87,10 @@ trait HasRoles
      *
      * @return bool
      */
-    public function hasRole($roles)
+    public function hasRole($roles, string $guard = 'web')
     {
         if (is_string($roles)) {
-            $roles = $this->getStoredRole($roles);
+            $roles = $this->getStoredRole($roles, $guard);
 
             return $this->roles->contains('id', $roles->_id);
         }
@@ -131,10 +131,10 @@ trait HasRoles
      *
      * @return bool
      */
-    public function hasAllRoles($roles)
+    public function hasAllRoles($roles, string $guard = 'web')
     {
         if (is_string($roles)) {
-            $roles = $this->getStoredRole($roles);
+            $roles = $this->getStoredRole($roles, $guard);
 
             return $this->roles->contains('id', $roles->_id);
         }
@@ -157,10 +157,10 @@ trait HasRoles
      *
      * @return bool
      */
-    public function hasPermissionTo($permission)
+    public function hasPermissionTo($permission, string $guard = 'web')
     {
         if (is_string($permission)) {
-            $permission = $this->getStoredPermission($permission);
+            $permission = $this->getStoredPermission($permission, $guard);
         }
 
         return $this->hasDirectPermission($permission) || $this->hasPermissionViaRole($permission);
@@ -225,10 +225,10 @@ trait HasRoles
      *
      * @return Role
      */
-    protected function getStoredRole($role)
+    protected function getStoredRole($role, string $guard)
     {
         if (is_string($role)) {
-            return app(Role::class)->findByName($role);
+            return app(Role::class)->findByName($role, $guard);
         }
 
         return $role;

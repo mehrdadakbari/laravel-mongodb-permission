@@ -9,6 +9,8 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class Permission extends Model implements PermissionContract
 {
+
+    protected $fillable = ['name', 'guard_name'];
     /**
      * A permission can be applied to roles.
      *
@@ -17,7 +19,7 @@ class Permission extends Model implements PermissionContract
     public function roles(): BelongsToMany
     {
         return $this->getPermissions(
-            config('laravel-permission.models.role')
+            config('permission.models.role')
         );
     }
 

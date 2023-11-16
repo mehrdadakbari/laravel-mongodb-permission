@@ -20,13 +20,13 @@ trait HasPermissions
         $permissions = collect($permissions)
             ->flatten()
             ->map(function ($permission) {
-                return $this->getStoredPermission($permission);
+                return $this->getStoredPermission($permission, 'web');
             })
             ->all();
 
         foreach ($permissions as $permission) {
             if (! $this->permissions()->where('id', $permission->_id)->first()) {
-                $this->permissions()->associate(app(EmbedPermission::class)->forceFill([
+                $this->permissions()->save(app(EmbedPermission::class)->forceFill([
                     'id' => $permission->_id,
                     'created_at' => Carbon::now()
                 ]));
@@ -45,9 +45,9 @@ trait HasPermissions
      *
      * @return HasPermissions
      */
-    public function revokePermissionTo($permission)
+    public function revokePermissionTo($permission, string $guard = 'web')
     {
-        $permission = $this->getStoredPermission($permission);
+        $permission = $this->getStoredPermission($permission, $guard);
         $embedPermission = $this->permissions()->where('id', $permission->_id);
 
         $this->permissions()->detach($embedPermission);
@@ -74,10 +74,10 @@ trait HasPermissions
      *
      * @return Permission
      */
-    protected function getStoredPermission($permissions)
+    protected function getStoredPermission($permissions, string $guard)
     {
         if (is_string($permissions)) {
-            return app(Permission::class)->findByName($permissions);
+            return app(Permission::class)->findByName($permissions, $guard);
         }
 
         if (is_array($permissions)) {

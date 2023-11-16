@@ -1,4 +1,4 @@
-# Associate users with roles and permissions (Mongodb/Moloquent)
+# Associate users with roles and permissions (Mongodb)
 
 This package allows to save permissions and roles in a database. It is built extend from [Spatie Laravel Permission](https://github.com/spatie/laravel-permission)
 
@@ -39,13 +39,13 @@ This service provider must be installed. And Spatie provider too.
 
 You can publish the config-file with:
 ```bash
-php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 ```
 
 This is the contents of the published config file:
 
 ```php
-// config/laravel-permission.php
+// config/permission.php
 
 return [
 
@@ -135,7 +135,7 @@ return [
         |
         */
 
-        'user_has_permissions' => 'user_has_permissions',
+        'model_has_permissions' => 'model_has_permissions',
 
         /*
         |--------------------------------------------------------------------------
@@ -148,7 +148,7 @@ return [
         |
         */
 
-        'user_has_roles' => 'user_has_roles',
+        'model_has_roles' => 'model_has_roles',
 
         /*
         |--------------------------------------------------------------------------
@@ -171,8 +171,8 @@ return [
 Adjust the `table_names` config above for support mongodb many to many relationships (using EmbedsMany)
 
 ```php
-    'user_has_permissions' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedPermission::class,
-    'user_has_roles' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedRole::class,
+    'model_has_permissions' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedPermission::class,
+    'model_has_roles' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedRole::class,
     'role_has_permissions' => Mehrdadakbari\Mongodb\Permissions\Models\EmbedPermission::class,
 ```
 
