@@ -23,7 +23,7 @@
     ],
     "require": {
         "spatie/laravel-permission": "^6.0",
-        "mongodb/laravel-mongodb": "^4.0"
+        "mongodb/laravel-mongodb": "^5.1"
     },
     "autoload": {
         "psr-4": {
